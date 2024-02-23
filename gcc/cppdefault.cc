@@ -92,6 +92,9 @@ const struct default_include cpp_include_defaults[]
     /* Another place the target system's headers might be.  */
     { TOOL_INCLUDE_DIR, "BINUTILS", 0, 1, 0, 0 },
 #endif
+#ifdef NATIVE_SYSTEM_HEADER_DIR_ARCH
+    { NATIVE_SYSTEM_HEADER_DIR_ARCH, NATIVE_SYSTEM_HEADER_COMPONENT, 0, 1, 1, 0 },
+#endif
 #ifdef NATIVE_SYSTEM_HEADER_DIR
     /* /usr/include comes dead last.  */
     { NATIVE_SYSTEM_HEADER_DIR, NATIVE_SYSTEM_HEADER_COMPONENT, 0, 0, 1, 2 },

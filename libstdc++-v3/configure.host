@@ -255,6 +255,9 @@ case "${host_os}" in
   freebsd*)
     os_include_dir="os/bsd/freebsd"
     ;;
+  l4re*)
+    os_include_dir="os/uclibc"
+    ;;
   linux-musl*)
     os_include_dir="os/generic"
     ;;

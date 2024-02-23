@@ -830,6 +830,21 @@ case ${target} in
 *-*-fuchsia*)
   native_system_header_dir=/include
   ;;
+*-*-l4re*)
+  extra_options="$extra_options l4re.opt"
+  gas=yes
+  gnu_ld=yes
+  default_use_cxa_atexit=yes
+  tmake_file="t-slibgcc"
+  case ${enable_threads} in
+    "" | yes | posix) thread_file='posix' ;;
+    no) ;;
+    *)
+      echo 'Unknown thread configuration for L4Re'
+      exit 1
+      ;;
+  esac
+  ;;
 *-*-linux* | frv-*-*linux* | *-*-kfreebsd*-gnu | *-*-gnu* | *-*-kopensolaris*-gnu | *-*-uclinuxfdpiceabi)
   extra_options="$extra_options gnu-user.opt"
   gas=yes
@@ -1090,7 +1105,7 @@ case ${target} in
 esac
 
 case ${target} in
-aarch64*-*-elf | aarch64*-*-fuchsia* | aarch64*-*-rtems*)
+aarch64*-*-elf | aarch64*-*-fuchsia* | aarch64*-*-rtems* | aarch64*-*-l4re*)
 	tm_file="${tm_file} dbxelf.h elfos.h newlib-stdint.h"
 	tm_file="${tm_file} aarch64/aarch64-elf.h aarch64/aarch64-errata.h aarch64/aarch64-elf-raw.h"
 	tmake_file="${tmake_file} aarch64/t-aarch64"
@@ -1100,6 +1115,9 @@ aarch64*-*-elf | aarch64*-*-fuchsia* | aarch64*-*-rtems*)
 		;;
         aarch64-*-fuchsia*)
                 tm_file="${tm_file} fuchsia.h"
+                ;;
+        aarch64-*-l4re*)
+                tm_file="${tm_file} l4re.h"
                 ;;
 	aarch64-*-rtems*)
 		tm_file="${tm_file} aarch64/rtems.h rtems.h"
@@ -1355,7 +1373,7 @@ arm*-*-phoenix*)
 	tmake_file="${tmake_file} arm/t-arm arm/t-bpabi arm/t-phoenix"
 	target_cpu_cname="arm7tdmi"
 	;;
-arm*-*-eabi* | arm*-*-symbianelf* | arm*-*-rtems* | arm*-*-fuchsia*)
+arm*-*-eabi* | arm*-*-symbianelf* | arm*-*-rtems* | arm*-*-fuchsia* | arm*-*-l4re*)
 	case ${target} in
 	arm*eb-*-eabi*)
 	  tm_defines="${tm_defines} TARGET_BIG_ENDIAN_DEFAULT=1"
@@ -1373,6 +1391,11 @@ arm*-*-eabi* | arm*-*-symbianelf* | arm*-*-rtems* | arm*-*-fuchsia*)
 	arm*-*-fuchsia*)
 	  tm_file="${tm_file} fuchsia.h arm/fuchsia-elf.h glibc-stdint.h"
 	  tmake_file="${tmake_file} arm/t-bpabi arm/t-fuchsia"
+	  target_cpu_cname="generic-armv7-a"
+	  ;;
+	arm*-*-l4re*)
+	  tm_file="${tm_file} l4re.h glibc-stdint.h"
+	  tmake_file="${tmake_file} arm/t-bpabi"
 	  target_cpu_cname="generic-armv7-a"
 	  ;;
 	arm*-*-rtems*)
@@ -2248,6 +2271,10 @@ i[34567]86-*-mingw* | x86_64-*-mingw*)
 x86_64-*-fuchsia*)
 	tmake_file="${tmake_file} i386/t-x86_64-elf"
 	tm_file="${tm_file} i386/unix.h i386/att.h elfos.h newlib-stdint.h i386/i386elf.h i386/x86-64.h fuchsia.h"
+	;;
+x86_64-*-l4re*)
+	tmake_file="${tmake_file} i386/t-x86_64-elf"
+	tm_file="${tm_file} i386/unix.h i386/att.h elfos.h newlib-stdint.h i386/i386elf.h i386/x86-64.h l4re.h"
 	;;
 ia64*-*-elf*)
 	tm_file="${tm_file} dbxelf.h elfos.h newlib-stdint.h ia64/sysv4.h ia64/elf.h"

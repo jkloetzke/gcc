@@ -2192,6 +2192,12 @@ beos*)
   shlibpath_var=LIBRARY_PATH
   ;;
 
+l4re*)
+  library_names_spec='${libname}${shared_ext}'
+  dynamic_linker="$host_os ld.so"
+  shlibpath_var=LIBRARY_PATH
+  ;;
+
 bsdi[[45]]*)
   version_type=linux
   need_version=no
@@ -3082,6 +3088,10 @@ irix5* | irix6* | nonstopux*)
   *-64|*"-64 ") libmagic=64-bit;;
   *) libmagic=never-match;;
   esac
+  lt_cv_deplibs_check_method=pass_all
+  ;;
+
+l4re*)
   lt_cv_deplibs_check_method=pass_all
   ;;
 

@@ -289,6 +289,10 @@ case ${host} in
   tmake_file="$tmake_file t-crtstuff-pic t-libgcc-pic t-eh-dw2-dip t-slibgcc t-slibgcc-fuchsia"
   extra_parts="crtbegin.o crtend.o"
   ;;
+*-*-l4re*)
+  tmake_file="$tmake_file t-crtstuff-pic t-libgcc-pic t-eh-dw2-dip t-slibgcc t-slibgcc-gld-nover"
+  extra_parts="crtbegin.o crtbeginS.o crtbeginT.o crtend.o crtendS.o"
+  ;;
 *-*-linux* | frv-*-*linux* | *-*-kfreebsd*-gnu | *-*-gnu* | *-*-kopensolaris*-gnu | *-*-uclinuxfdpiceabi)
   tmake_file="$tmake_file t-crtstuff-pic t-libgcc-pic t-eh-dw2-dip t-slibgcc t-slibgcc-gld t-slibgcc-elf-ver t-linux"
   extra_parts="crtbegin.o crtbeginS.o crtbeginT.o crtend.o crtendS.o"
@@ -420,6 +424,13 @@ aarch64*-*-fuchsia*)
 	tmake_file="${tmake_file} ${cpu_type}/t-lse t-slibgcc-libgcc"
 	tmake_file="${tmake_file} ${cpu_type}/t-softfp t-softfp"
 	;;
+aarch64*-*-l4re*)
+	extra_parts="$extra_parts crtfastmath.o"
+	tmake_file="${tmake_file} ${cpu_type}/t-aarch64"
+	tmake_file="${tmake_file} ${cpu_type}/t-lse t-slibgcc-libgcc"
+	tmake_file="${tmake_file} ${cpu_type}/t-softfp t-softfp"
+	md_unwind_header=aarch64/aarch64-unwind.h
+	;;
 aarch64*-*-linux*)
 	extra_parts="$extra_parts crtfastmath.o"
 	md_unwind_header=aarch64/linux-unwind.h
@@ -489,6 +500,12 @@ arm*-*-freebsd*)                # ARM FreeBSD EABI
 	tmake_file="${tmake_file} t-softfp-sfdf t-softfp-excl arm/t-softfp t-softfp"
 	;;
 arm*-*-fuchsia*)
+	tmake_file="${tmake_file} arm/t-arm arm/t-elf arm/t-bpabi"
+	tmake_file="${tmake_file} arm/tsoftfp t-softfp"
+	tm_file="${tm_file} arm/bpabi-lib.h"
+	unwind_header=config/arm/unwind-arm.h
+	;;
+arm*-*-l4re*)
 	tmake_file="${tmake_file} arm/t-arm arm/t-elf arm/t-bpabi"
 	tmake_file="${tmake_file} arm/tsoftfp t-softfp"
 	tm_file="${tm_file} arm/bpabi-lib.h"
@@ -743,6 +760,12 @@ x86_64-*-elf* | x86_64-*-rtems*)
 x86_64-*-fuchsia*)
 	tmake_file="$tmake_file t-libgcc-pic"
 	;;
+x86_64-*-l4re*)
+	tmake_file="$tmake_file t-libgcc-pic"
+	extra_parts="$extra_parts crtprec32.o crtprec64.o crtprec80.o"
+	tmake_file="${tmake_file} i386/t-crtpc i386/t-crtstuff t-dfprules"
+	tm_file="${tm_file} i386/elf-lib.h"
+	;;
 i[34567]86-*-dragonfly*)
 	tmake_file="${tmake_file} i386/t-dragonfly i386/t-crtstuff"
 	md_unwind_header=i386/dragonfly-unwind.h
@@ -772,6 +795,12 @@ x86_64-*-openbsd*)
 i[34567]86-*-linux*)
 	extra_parts="$extra_parts crtprec32.o crtprec64.o crtprec80.o crtfastmath.o"
 	tmake_file="${tmake_file} i386/t-crtpc t-crtfm i386/t-crtstuff t-dfprules"
+	tm_file="${tm_file} i386/elf-lib.h"
+	md_unwind_header=i386/linux-unwind.h
+	;;
+i[34567]86-*-l4re*)
+	extra_parts="$extra_parts crtprec32.o crtprec64.o crtprec80.o"
+	tmake_file="${tmake_file} i386/t-crtpc i386/t-crtstuff t-dfprules"
 	tm_file="${tm_file} i386/elf-lib.h"
 	md_unwind_header=i386/linux-unwind.h
 	;;
