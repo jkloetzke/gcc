@@ -25,7 +25,7 @@
 #define LIB_SPEC \
   "%{pthread:--whole-archive -lpthread --no-whole-archive} " \
   "--start-group -lc_be_l4refile -lc_be_l4re %{static|static-pie:-ll4re-vfs.o} " \
-  "-lc -luc_c_nonshared.p -l4re-util-nortti -l4re -ll4util -ll4sys -lc_support_misc -lc_be_sig_noop -lc_be_socket_noop " \
+  "-lc -luc_c_nonshared.p -l4re-util -l4re -ll4util -ll4sys -lc_support_misc -lc_be_sig_noop -lc_be_socket_noop " \
   "%{!shared:%{!static:%{!static-pie:-lld-l4}}} --end-group "
 
 #define LINK_SSP_SPEC "%{fstack-protector|fstack-protector-all" \
