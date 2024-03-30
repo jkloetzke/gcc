@@ -19,7 +19,7 @@
    "%{static:crtend.o%s; \
      shared|static-pie|" PIE_SPEC ":crtendS.o%s; \
      :crtend.o%s} " \
-   "%{shared:crtn.s.o%s;:crtn.o%s} crtl4kip.o%s "
+   "%{shared:crtn.s.o%s;:crtn.o%s} "
 
 #undef  LIB_SPEC
 #define LIB_SPEC \
